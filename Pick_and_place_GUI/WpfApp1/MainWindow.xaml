@@ -4,9 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
+        xmlns:cam="clr-namespace:WebcamControl;assembly=WebcamControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <cam:Webcam x:Name="WebcamViewer" Margin="242,10,244.2,221.8"
+
+                    FrameRate="30"
+
+                    ImageDirectory="C:\Users\ELL42\Documents\Pick-and-place\Media"
+
+                    VideoDirectory="C:\Users\ELL42\Documents\Pick-and-place\Media"
+
+                    VideoDevice="{Binding SelectedItem, ElementName=VidDevices}"
+
+                    AudioDevice="{Binding SelectedItem, ElementName=AudDevices}"/>
+        <TextBlock Text="Video Device" VerticalAlignment="Center" Height="20" Margin="242,210,472.2,192.8" RenderTransformOrigin="0.5,0.5"/>
+        <ComboBox x:Name="VidDevices" Margin="341,206,244.2,192.8"
+
+                      Width="210" Height="24"
+
+                      ItemsSource="{Binding VideoDevices}"
+
+                      DisplayMemberPath="Name"
+
+                      SelectedIndex="0"/>
+        <TextBlock Text="Audio Device" VerticalAlignment="Center" Height="27" Margin="242,238,472.2,157.8" RenderTransformOrigin="0.482,0.456"/>
+        <ComboBox x:Name="AudDevices"
+
+                      Width="210" Height="24" Margin="341,238,244.2,160.8"
+
+                      ItemsSource="{Binding AudioDevices}"
+
+                      DisplayMemberPath="Name"
+
+                      SelectedIndex="0"/>
+
+        <Grid HorizontalAlignment="Center" Margin="310,298,215.2,9.8" Width="270">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Start Capture" 
+
+                    Height="24" Width="112" HorizontalAlignment="Right" Margin="0,0,10,0"
+
+                    Click="StartCaptureButton_Click"/>
+
+            <Button Grid.Column="1" Content="Stop Capture"
+
+                    Height="24" Width="112" HorizontalAlignment="Left" Margin="10,0,0,0"  
+
+                    Click="StopCaptureButton_Click"/>
+            <Button Grid.Row="1" Content="Start Recording"
+
+                    Height="24" Width="112" HorizontalAlignment="Right" Margin="0,0,10,0"
+
+                    Click="StartRecordingButton_Click"/>
+
+            <Button Grid.Row="1" Grid.Column="1" Content="Stop Recording" 
+
+                    Height="24" Width="115" HorizontalAlignment="Left" Margin="10,0,0,0"
+
+                    Click="StopRecordingButton_Click"/>
+
+        </Grid>
     </Grid>
+
 </Window>
