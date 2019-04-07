@@ -13,7 +13,7 @@
             <ColumnDefinition Width="249*"/>
             <ColumnDefinition Width="149*"/>
         </Grid.ColumnDefinitions>
-        <cam:Webcam x:Name="WebcamViewer" Margin="10,10,37.8,284.8"
+        <cam:Webcam x:Name="WebcamViewer" Margin="10,10,37.8,284.8" BorderBrush="Black" BorderThickness="2"
 
                     FrameRate="30"
 
@@ -25,43 +25,39 @@
 
                     AudioDevice="{Binding SelectedItem, ElementName=AudDevices}"/>
 
-
-        <Grid HorizontalAlignment="Center" Margin="61,604,334.8,123.8" Width="369">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Center" Margin="10,538,483,67.2" Width="278">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="168*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="VidDevices" 
-                      Grid.Row="0"
-                      Grid.Column="1"
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0"  x:Name="VidDevices"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Center"
                       ItemsSource="{Binding VideoDevices}"
 
                       DisplayMemberPath="Name"
 
-                      SelectedIndex="0" Margin="10,15,0,5" Width="120" />
-            <TextBlock Grid.Row="0" Text="Video Device:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20" Margin="0,19,10.4,11.4" RenderTransformOrigin="0.5,0.5"/>
-
-            <Button Grid.Row ="2" Content="Start Capture" 
-
-                    Height="24" Width="112" HorizontalAlignment="Right" Margin="0,0,10,0"
-
-                    Click="StartCaptureButton_Click"/>
-
-            <Button Grid.Row ="1" Grid.Column="1" Content="Stop Capture"
-
-                    Height="24" Width="112" HorizontalAlignment="Left" Margin="10,0,0,0"  
-
-                    Click="StopCaptureButton_Click"/>
+                      SelectedIndex="0" Width="158" Height="22"/>
+                <Button Grid.Row="1" Content="Start Capture" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StartCaptureButton_Click" />
+                <Button Grid.Row="2" Content="Stop Capture" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StopCaptureButton_Click" />
+                <Button Grid.Row="3" Content="Screenshot" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Grid.Row="4" Content="Grid Toggle" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </Grid>
+            <TextBlock Grid.Column="0" Text="Video Device:" Width="72" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="0,10,0,0"/>
 
         </Grid>
+        <Button Width="91" VerticalAlignment="Center" Margin="0,49,0,72" Height="20" HorizontalAlignment="Left" Grid.Column="1" Content="Start Capture" Click="StartCaptureButton_Click"/>
         <Button Name="Exit_but" Content="Exit" HorizontalAlignment="Left" Margin="158,53,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="22" Click="Exit_but_Click"/>
-        <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Margin="70.2,185,192.2,517" Grid.Column="1" RenderTransformOrigin="0.508,0.511" Width="200" Height="120">
+        <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Margin="114,150,147,548.2" Grid.Column="1" RenderTransformOrigin="0.508,0.511" Width="200" Height="120">
             <Grid Grid.Column="1" Margin="2,2,-2.2,-1.8">
 
                 <Grid.RowDefinitions >
@@ -124,22 +120,11 @@
         <Button Name ="Home" Content="Go Home" Grid.Column="1" HorizontalAlignment="Left" Margin="55,410,0,0" VerticalAlignment="Top" Width="75" Click="Home_Click"/>
         <ComboBox Name="Ports" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.Column="1" Margin="10,10,0,0" SelectionChanged="Ports_SelectionChanged"/>
         <ComboBox Name ="Rates" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.Column="1" Margin="10,37,0,0"/>
-        <Button Name ="Connect" Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="244,27,0,0" VerticalAlignment="Top" Width="75" Click="Connect_Click"/>
-        <Button Content="Part List" HorizontalAlignment="Left" Margin="600,0,0,58.8" VerticalAlignment="Bottom" Width="75"/>
-        <Button Content="Feeder List" HorizontalAlignment="Left" Margin="389,0,0,58.8" VerticalAlignment="Bottom" Width="75"/>
-        <Button Content="Go To Offset" HorizontalAlignment="Left" Margin="494,0,0,63.8" VerticalAlignment="Bottom" Width="75"/>
-        <Button Content="Take snap" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Margin="600,0,0,98.8"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="302.2,635,0,0" VerticalAlignment="Top" Width="80" Grid.Column="1">
-            <Grid>
-                <RadioButton Content="Video 1" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="20"/>
-                <RadioButton Content="Video 2" HorizontalAlignment="Left" Margin="5,25,0,0" VerticalAlignment="Top" Height="20"/>
-                <RadioButton Content="Video 3" HorizontalAlignment="Left" Margin="5,45,0,0" VerticalAlignment="Top" Height="20"/>
-                <RadioButton Content="Video 4" HorizontalAlignment="Left" Margin="5,65,0,0" VerticalAlignment="Top" Height="20"/>
-                <RadioButton Content="Video 5" HorizontalAlignment="Left" Margin="5,85,0,0" VerticalAlignment="Top" Height="20"/>
-                <RadioButton Content="Video 6" HorizontalAlignment="Left" Margin="5,105,0,0" VerticalAlignment="Top" Height="20"/>
-                <RadioButton Content="Grid" HorizontalAlignment="Left" Margin="5,125,0,0" VerticalAlignment="Top" Height="20"/>
-            </Grid>
-        </Border>
+        <Button Name ="Connect" Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="158,17,0,0" VerticalAlignment="Top" Width="75" Click="Connect_Click"/>
+        <Button Content="Part List" HorizontalAlignment="Left" Margin="608,0,0,57.2" VerticalAlignment="Bottom" Width="75"/>
+        <Button Content="Feeder List" HorizontalAlignment="Left" Margin="452,0,0,167.2" VerticalAlignment="Bottom" Width="74"/>
+        <Button Content="Go To Offset" HorizontalAlignment="Left" Margin="452,0,0,78.2" VerticalAlignment="Bottom" Width="75"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="340,555,0,0" VerticalAlignment="Top" Width="80"/>
         <Button Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Grid.Column="1" Margin="137.2,0,0,285" Background="#FFFB0707" FontWeight="Bold" Foreground="#FFFAF7F7"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="70.2,635,0,0" VerticalAlignment="Top" Width="100" Grid.Column="1">
             <Grid>
@@ -153,6 +138,26 @@
                 <Button Name="ZeroZ" Content="Zero Z" Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroZ_Click"/>
             </Grid>
         </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Left" Height="70" Margin="194,635,0,0" VerticalAlignment="Top" Width="86">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Name="cameraGridOn" Content="Grid On" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70"/>
+                <Button Name="cameraGridOff" Content="Grid Off" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center" Width="75"/>
+
+            </Grid>
+        </Border>
+        <Grid Margin="342,557,351,113.2">
+            <RadioButton Content="Video 1" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="20"/>
+            <RadioButton Content="Video 2" HorizontalAlignment="Left" Margin="5,25,0,0" VerticalAlignment="Top" Height="20"/>
+            <RadioButton Content="Video 3" HorizontalAlignment="Left" Margin="5,45,0,0" VerticalAlignment="Top" Height="20"/>
+            <RadioButton Content="Video 4" HorizontalAlignment="Left" Margin="5,65,0,0" VerticalAlignment="Top" Height="20"/>
+            <RadioButton Content="Video 5" HorizontalAlignment="Left" Margin="5,85,0,0" VerticalAlignment="Top" Height="20"/>
+            <RadioButton Content="Video 6" HorizontalAlignment="Left" Margin="5,105,0,0" VerticalAlignment="Top" Height="20"/>
+            <RadioButton Content="Grid" HorizontalAlignment="Left" Margin="5,125,0,0" VerticalAlignment="Top" Height="20"/>
+        </Grid>
     </Grid>
 
 
