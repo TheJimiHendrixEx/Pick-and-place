@@ -15,7 +15,7 @@
             <ColumnDefinition Width="149*"/>
         </Grid.ColumnDefinitions>
         <!-- Video Feed -->
-        <cam:Webcam x:Name="WebcamViewer" Margin="26,15,26,388.2" BorderBrush="Aquamarine" BorderThickness="2"
+        <cam:Webcam x:Name="WebcamViewer" Margin="26,15,26,388.2" BorderBrush="DarkBlue" BorderThickness="2"
 
                     FrameRate="30"
 
