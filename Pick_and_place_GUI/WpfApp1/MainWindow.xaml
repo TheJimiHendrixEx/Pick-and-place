@@ -8,12 +8,14 @@
         mc:Ignorable="d"
         KeyDown="MainWindow_KeyDown"
         Title="MainWindow" Height="850" Width="1240" Icon="naked_pic_wRR_icon.ico">
+    <!-- Main Grid -->
     <Grid Margin="0,0,0.2,0.8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="249*"/>
             <ColumnDefinition Width="149*"/>
         </Grid.ColumnDefinitions>
-        <cam:Webcam x:Name="WebcamViewer" Margin="10,10,37.8,284.8" BorderBrush="Black" BorderThickness="2"
+        <!-- Video Feed -->
+        <cam:Webcam x:Name="WebcamViewer" Margin="26,15,26,388.2" BorderBrush="Black" BorderThickness="2"
 
                     FrameRate="30"
 
@@ -25,12 +27,15 @@
 
                     AudioDevice="{Binding SelectedItem, ElementName=AudDevices}"/>
 
-        <Grid HorizontalAlignment="Center" Margin="10,538,483,67.2" Width="278">
+        <!-- Bottom Grid START -->
+        <Grid HorizontalAlignment="Center" Margin="26,458,26,10.2" Width="719" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>
-                <ColumnDefinition Width="168*"/>
+                <ColumnDefinition Width="169*"/>
+                <ColumnDefinition Width="261*"/>
+                <ColumnDefinition Width="179*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Margin="0,0,0,9.8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
@@ -38,118 +43,107 @@
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <ComboBox Grid.Row="0"  x:Name="VidDevices"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      ItemsSource="{Binding VideoDevices}"
-
-                      DisplayMemberPath="Name"
-
-                      SelectedIndex="0" Width="158" Height="22"/>
+                <ComboBox Grid.Row="0" x:Name="VidDevices" Width="158" Height="22" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding VideoDevices}" DisplayMemberPath="Name" SelectedIndex="0" />
                 <Button Grid.Row="1" Content="Start Capture" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StartCaptureButton_Click" />
                 <Button Grid.Row="2" Content="Stop Capture" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StopCaptureButton_Click" />
                 <Button Grid.Row="3" Content="Screenshot" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button Grid.Row="4" Content="Grid Toggle" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Grid.Row="4" Content="Grid Toggle" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="5" Text="" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                <TextBox Grid.Row="6" Text="" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                <Button Grid.Row="7" Content="Go To Offset" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
             </Grid>
-            <TextBlock Grid.Column="0" Text="Video Device:" Width="72" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="0,10,0,0"/>
+            <TextBlock Grid.Column="0" Text="Video Device:" Width="72" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="19,10,19,0"/>
+            <TextBlock Grid.Column="0" Text="X Offset:" Width="46" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="32,215,32,0" />
+            <TextBlock Grid.Column="0" Text="Y Offset:" Width="47" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="31,257,32,0"/>
+            <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.511" Width="200" Height="120" Grid.Column="2" Margin="0,7,0,0">
+                <Grid Grid.Column="1" Margin="2,2,-2.2,-1.8">
 
-        </Grid>
-        <Button Width="91" VerticalAlignment="Center" Margin="0,49,0,72" Height="20" HorizontalAlignment="Left" Grid.Column="1" Content="Start Capture" Click="StartCaptureButton_Click"/>
-        <Button Name="Exit_but" Content="Exit" HorizontalAlignment="Left" Margin="158,53,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="22" Click="Exit_but_Click"/>
-        <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Margin="114,150,147,548.2" Grid.Column="1" RenderTransformOrigin="0.508,0.511" Width="200" Height="120">
-            <Grid Grid.Column="1" Margin="2,2,-2.2,-1.8">
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="23*"/>
+                        <RowDefinition Height="76*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0.2,-0.2,0.2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="72*"/>
+                            <ColumnDefinition Width="61*"/>
+                            <ColumnDefinition Width="66*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton GroupName="StepSize" Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Column="0" VerticalAlignment="Top" Height="15" Width="26" Checked="AllCheckBoxes_CheckedChanged"/>
+                        <RadioButton GroupName="StepSize" Content="100" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Column="0" VerticalAlignment="Top" Height="15" Width="39" Checked="AllCheckBoxes_CheckedChanged"/>
+                        <RadioButton GroupName="StepSize" Content="2000" HorizontalAlignment="Left" Margin="10,51,0,0" Grid.Column="0" VerticalAlignment="Top" Height="15" Width="45" Checked="AllCheckBoxes_CheckedChanged"/>
 
-                <Grid.RowDefinitions >
-                    <RowDefinition Height="23*"/>
-                    <RowDefinition Height="76*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0.2,-0.2,0.2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="72*"/>
-                        <ColumnDefinition Width="61*"/>
-                        <ColumnDefinition Width="66*"/>
-                    </Grid.ColumnDefinitions>
-                    <RadioButton GroupName="StepSize" Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Column="0" VerticalAlignment="Top" Height="15" Width="26" Checked="AllCheckBoxes_CheckedChanged"/>
-                    <RadioButton GroupName="StepSize" Content="100" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Column="0" VerticalAlignment="Top" Height="15" Width="39" Checked="AllCheckBoxes_CheckedChanged"/>
-                    <RadioButton GroupName="StepSize" Content="2000" HorizontalAlignment="Left" Margin="10,51,0,0" Grid.Column="0" VerticalAlignment="Top" Height="15" Width="45" Checked="AllCheckBoxes_CheckedChanged"/>
+                        <RadioButton GroupName="StepSize" Content="5" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,10,0,0" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="26"/>
+                        <RadioButton GroupName="StepSize" Content="500" Grid.Column="1" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="39"/>
+                        <RadioButton GroupName="StepSize" Content="800" Grid.Column="1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="39"/>
 
-                    <RadioButton GroupName="StepSize" Content="5" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,10,0,0" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="26"/>
-                    <RadioButton GroupName="StepSize" Content="500" Grid.Column="1" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="39"/>
-                    <RadioButton GroupName="StepSize" Content="800" Grid.Column="1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="39"/>
+                        <RadioButton GroupName="StepSize" Content="10" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Margin="9.8,10,0,0" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="32"/>
+                        <RadioButton GroupName="StepSize" Content="1000" Grid.Column="2" HorizontalAlignment="Left" Margin="9.8,30,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="45"/>
+                        <RadioButton GroupName="StepSize" Content="1600" Grid.Column="2" HorizontalAlignment="Left" Margin="9.8,50,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="45"/>
 
-                    <RadioButton GroupName="StepSize" Content="10" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Margin="9.8,10,0,0" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="32"/>
-                    <RadioButton GroupName="StepSize" Content="1000" Grid.Column="2" HorizontalAlignment="Left" Margin="9.8,30,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="45"/>
-                    <RadioButton GroupName="StepSize" Content="1600" Grid.Column="2" HorizontalAlignment="Left" Margin="9.8,50,0,0" VerticalAlignment="Top" Checked="AllCheckBoxes_CheckedChanged" Height="15" Width="45"/>
-
+                    </Grid>
+                    <TextBlock Grid.Row="0" x:Name="StepSize" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Step Size"/>
                 </Grid>
-                <TextBlock Grid.Row="0" x:Name="StepSize" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Step Size"/>
-            </Grid>
-        </Border>
-        <Button Content="Go" Grid.Column="1" HorizontalAlignment="Center"  Width="75" Margin="287.2,589,100.2,263" Click="GoButton" Height="20"/>
-        <Grid Grid.Column="1" HorizontalAlignment="Left" Height="154" Margin="227.2,405,0,0" VerticalAlignment="Top" Width="173" RenderTransformOrigin="0.501,0.497">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="28*"/>
-                <RowDefinition Height="121*"/>
-            </Grid.RowDefinitions>
-            <Grid Margin="0,3,0,-0.2" Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Height="119" Margin="0,7,0,0" VerticalAlignment="Top" Width="119" Grid.Column="3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="ZeroX" Content="Zero X" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="75" Margin="12,0,12,6.8" Click="ZeroX_Click"/>
+                    <Button x:Name="ZeroY" Content="Zero Y" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroY_Click"/>
+                    <Button x:Name="ZeroZ" Content="Zero Z" Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroZ_Click"/>
+                </Grid>
+            </Border>
+            <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.511" Width="200" Height="120" Grid.Column="2" Margin="0,150,0,0">
+                <Grid Grid.Column="1" Margin="-2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="121*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Content="-X Step" Click="Xm_Click"/>
+                        <Button Grid.Row="0" Grid.Column="1" Content="+X Step" Click="Xp_Click"/>
+                        <Button Grid.Row="1" Grid.Column="0" Content="-Y Step" Click="Ym_Click"/>
+                        <Button Grid.Row="1" Grid.Column="1" Content="+Y Step" Click="Yp_Click"/>
+                        <Button Grid.Row="2" Grid.Column="0" Content="-Z Step" Click="Zm_Click"/>
+                        <Button Grid.Row="2" Grid.Column="1" Content="+Z Step" Click="Zp_Click"/>
+                        <Button Grid.Row="3" Grid.Column="0" Content="-A Step" Click="Am_Click"/>
+                        <Button Grid.Row="3" Grid.Column="1" Content="+A Step" Click="Ap_Click"/>
 
-                </Grid.RowDefinitions>
-                <Button Name="Xp" Grid.Row="0" Grid.Column="0" Content="+X Step" Click="Xp_Click"/>
-                <Button Name="Xm" Grid.Row="0" Grid.Column="1" Content="-X Step" Click="Xm_Click"/>
-                <Button Name="Yp" Grid.Row="1" Grid.Column="0" Content="+Y Step" Click="Yp_Click"/>
-                <Button Name="Ym" Grid.Row="1" Grid.Column="1" Content="-Y Step" Click="Ym_Click"/>
-                <Button Name="Zp" Grid.Row="2" Grid.Column="0" Content="+Z Step" Click="Zp_Click"/>
-                <Button Name="Zm" Grid.Row="2" Grid.Column="1" Content="-Z Step" Click="Zm_Click"/>
-                <Button Name="Ap" Grid.Row="2" Grid.Column="0" Content="+A Step" Click="Ap_Click" Height="31" Margin="0,30.2,0.4,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-                <Button Name="Am" Grid.Row="3" Grid.Column="1" Content="-A Step" Click="Am_Click"/>
-            </Grid>
-
-            <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">Stepping</TextBlock>
+                    </Grid>
+                    <TextBlock Grid.Row="0" x:Name="StepSize1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Stepping"/>
+                </Grid>
+            </Border>
+            <Button x:Name ="Home" Grid.Column="3" Content="Go Home" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Click="Home_Click" Margin="0,150,0,0"/>
+            <Button Content="Part List" HorizontalAlignment="Left" Margin="31,0,0,20.8" VerticalAlignment="Bottom" Width="74" Grid.Column="2"/>
+            <Button Content="Feeder List" HorizontalAlignment="Right" Margin="0,0,30,20.8" VerticalAlignment="Bottom" Width="74" Grid.Column="2"/>
+            <ComboBox x:Name="Ports" HorizontalAlignment="Center" VerticalAlignment="Top" Width="119" Margin="30,200,30,0" SelectionChanged="Ports_SelectionChanged" Grid.Column="3"/>
+            <ComboBox x:Name ="Rates" HorizontalAlignment="Center" VerticalAlignment="Top" Width="119" Grid.Column="3" Margin="30,248,30,0"/>
+            <Label Content="Device" Grid.Column="3" HorizontalAlignment="Center" Margin="67,175,67,0" VerticalAlignment="Top"/>
+            <Label Content="Baud Rate" Grid.Column="3" HorizontalAlignment="Center" Margin="0,222,0,0" VerticalAlignment="Top"/>
+            <Button x:Name ="Connect" Content="Connect" Grid.Column="3" HorizontalAlignment="Center" Margin="0,309,0,0" VerticalAlignment="Top" Width="74" Click="Connect_Click"/>
         </Grid>
 
-        <Button Name ="Home" Content="Go Home" Grid.Column="1" HorizontalAlignment="Left" Margin="55,410,0,0" VerticalAlignment="Top" Width="75" Click="Home_Click"/>
-        <ComboBox Name="Ports" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.Column="1" Margin="10,10,0,0" SelectionChanged="Ports_SelectionChanged"/>
-        <ComboBox Name ="Rates" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.Column="1" Margin="10,37,0,0"/>
-        <Button Name ="Connect" Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="158,17,0,0" VerticalAlignment="Top" Width="75" Click="Connect_Click"/>
-        <Button Content="Part List" HorizontalAlignment="Left" Margin="608,0,0,57.2" VerticalAlignment="Bottom" Width="75"/>
-        <Button Content="Feeder List" HorizontalAlignment="Left" Margin="452,0,0,167.2" VerticalAlignment="Bottom" Width="74"/>
-        <Button Content="Go To Offset" HorizontalAlignment="Left" Margin="452,0,0,78.2" VerticalAlignment="Bottom" Width="75"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="340,555,0,0" VerticalAlignment="Top" Width="80"/>
-        <Button Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Grid.Column="1" Margin="137.2,0,0,285" Background="#FFFB0707" FontWeight="Bold" Foreground="#FFFAF7F7"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="70.2,635,0,0" VerticalAlignment="Top" Width="100" Grid.Column="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Button Name="ZeroX" Content="Zero X" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="74" Margin="12,0,12,6.8" Click="ZeroX_Click"/>
-                <Button Name="ZeroY" Content="Zero Y" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroY_Click"/>
-                <Button Name="ZeroZ" Content="Zero Z" Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroZ_Click"/>
-            </Grid>
-        </Border>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Left" Height="70" Margin="194,635,0,0" VerticalAlignment="Top" Width="86">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button Name="cameraGridOn" Content="Grid On" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70"/>
-                <Button Name="cameraGridOff" Content="Grid Off" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Center" Width="75"/>
-
-            </Grid>
-        </Border>
-        <Grid Margin="342,557,351,113.2">
+        <!-- Bottom Grid END -->
+        <Button Name="Exit_but" Content="Exit" HorizontalAlignment="Left" Margin="180,601,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="22" Click="Exit_but_Click"/>
+        <Button Content="Go" Grid.Column="1" HorizontalAlignment="Center"  Width="75" Margin="287.2,589,100.2,263" Click="GoButton" Height="20"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="301,469,0,0" VerticalAlignment="Top" Width="80" Grid.Column="1"/>
+        <Grid Margin="301,469,82,201.2" Grid.Column="1">
             <RadioButton Content="Video 1" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="20"/>
             <RadioButton Content="Video 2" HorizontalAlignment="Left" Margin="5,25,0,0" VerticalAlignment="Top" Height="20"/>
             <RadioButton Content="Video 3" HorizontalAlignment="Left" Margin="5,45,0,0" VerticalAlignment="Top" Height="20"/>
@@ -158,6 +152,7 @@
             <RadioButton Content="Video 6" HorizontalAlignment="Left" Margin="5,105,0,0" VerticalAlignment="Top" Height="20"/>
             <RadioButton Content="Grid" HorizontalAlignment="Left" Margin="5,125,0,0" VerticalAlignment="Top" Height="20"/>
         </Grid>
+        <Button Content="STOP" Background="#FFFB0707" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7"  Height="55" Margin="133,711,150,52.2" Grid.Column="1"/>
     </Grid>
 
 
