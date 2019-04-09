@@ -25,6 +25,8 @@ namespace WpfApp1
         float ypos = 0;
         float zpos = 0;
         float apos = 0;
+        float xOffsetVal = 0;
+        float yOffsetVal = 0;
         int feedrate = 2500;
         int intIndex = 0;
         string command = "";
@@ -255,7 +257,6 @@ namespace WpfApp1
 
         private void Am_Click(object sender, RoutedEventArgs e)
         {
-            command = "";
             apos -= intIndex;
             command = "G1 A" + apos + " F" + feedrate;
             com.WriteLine(command);
@@ -264,11 +265,13 @@ namespace WpfApp1
         private void ZeroX_Click(object sender, RoutedEventArgs e)
         {
             xpos = 0;
+            command = "G93 X0";
         }
 
         private void ZeroY_Click(object sender, RoutedEventArgs e)
         {
             ypos = 0;
+            command = "G94 Y0";
         }
 
         private void ZeroZ_Click(object sender, RoutedEventArgs e)
@@ -284,19 +287,30 @@ namespace WpfApp1
         private void GoToOffset_Click(object sender, RoutedEventArgs e)
         {
             // Local Variables for Offset Coords
-            float xposOffset = xpos + float.Parse(xOffset.Text);
-            float yposOffset = ypos + float.Parse(yOffset.Text);
-            command = "";
-            command = "G1 X" + xposOffset + " Y" + yposOffset + " F" + feedrate;
+            xpos += xOffsetVal;
+            ypos += yOffsetVal;
+            command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
             com.WriteLine(command);
         }
 
-        private void ReturnFromOffset_Click(object sender, RoutedEventArgs e)
+        private void ReturnOffset_Click(object sender, RoutedEventArgs e)
         {
             // Reload Original Coords
-            command = "";
+            xpos -= xOffsetVal;
+            ypos -= yOffsetVal;
             command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
             com.WriteLine(command);
+        }
+
+        // Automatically update offset values when entered into textbox
+        private void XOffset_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            xOffsetVal = float.Parse(xOffset.Text);
+        }
+
+        private void YOffset_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            yOffsetVal = float.Parse(yOffset.Text);
         }
     }
 }
