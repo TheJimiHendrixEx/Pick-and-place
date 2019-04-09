@@ -286,6 +286,20 @@ void process_string(char instruction[], int size)
 				set_position(0.0, 0.0, 0.0);
 			break;
 
+      // Set X Zero 
+      case 93:
+        set_position(0.0, fp.y, fp.z);
+      break; 
+
+      // Set Y Zero 
+      case 94:
+        set_position(fp.x, 0.0, fp.z);
+      break; 
+
+      // Set Z Zero 
+      case 95:
+        set_position(fp.x, fp.y, 0.0);
+      break; 
 /*
 			//Inverse Time Feed Mode
 			case 93:
