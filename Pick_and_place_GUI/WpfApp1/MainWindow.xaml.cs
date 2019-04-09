@@ -25,7 +25,6 @@ namespace WpfApp1
         float ypos = 0;
         float zpos = 0;
         float apos = 0;
-        float angle = 0;
         int feedrate = 2500;
         int intIndex = 0;
         string command = "";
@@ -275,6 +274,29 @@ namespace WpfApp1
         private void ZeroZ_Click(object sender, RoutedEventArgs e)
         {
             zpos = 0;
+        }
+
+        private void ZeroA_Click(object sender, RoutedEventArgs e)
+        {
+            apos = 0;
+        }
+
+        private void GoToOffset_Click(object sender, RoutedEventArgs e)
+        {
+            // Local Variables for Offset Coords
+            float xposOffset = xpos + float.Parse(xOffset.Text);
+            float yposOffset = ypos + float.Parse(yOffset.Text);
+            command = "";
+            command = "G1 X" + xposOffset + " Y" + yposOffset + " F" + feedrate;
+            com.WriteLine(command);
+        }
+
+        private void ReturnFromOffset_Click(object sender, RoutedEventArgs e)
+        {
+            // Reload Original Coords
+            command = "";
+            command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
+            com.WriteLine(command);
         }
     }
 }

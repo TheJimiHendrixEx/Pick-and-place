@@ -27,6 +27,9 @@
 
                     AudioDevice="{Binding SelectedItem, ElementName=AudDevices}"/>
 
+        <Grid Grid.Column="0" Margin="26,15,26,388.2">
+        </Grid>
+
         <!-- Bottom Grid START -->
         <Grid HorizontalAlignment="Center" Margin="26,458,26,10.2" Width="719" Grid.Column="0">
             <Grid.ColumnDefinitions>
@@ -35,29 +38,30 @@
                 <ColumnDefinition Width="261*"/>
                 <ColumnDefinition Width="179*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1" Margin="0,0,0,9.8">
+            <Grid Grid.Column="1" Margin="0,0,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
                 </Grid.RowDefinitions>
                 <ComboBox Grid.Row="0" x:Name="VidDevices" Width="158" Height="22" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding VideoDevices}" DisplayMemberPath="Name" SelectedIndex="0" />
                 <Button Grid.Row="1" Content="Start Capture" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StartCaptureButton_Click" />
                 <Button Grid.Row="2" Content="Stop Capture" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StopCaptureButton_Click" />
                 <Button Grid.Row="3" Content="Screenshot" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Button Grid.Row="4" Content="Grid Toggle" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="5" Text="" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,10,0,0"/>
-                <TextBox Grid.Row="6" Text="" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,10,0,0"/>
-                <Button Grid.Row="7" Content="Go To Offset" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                <TextBox Grid.Row="5" Name="xOffset" Text="" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                <TextBox Grid.Row="6" Name="yOffset" Text="" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                <Button Grid.Row="7" Content="Go to Offset" Width="91" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Click="GoToOffset_Click"/>
             </Grid>
             <TextBlock Grid.Column="0" Text="Video Device:" Width="72" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="19,10,19,0"/>
-            <TextBlock Grid.Column="0" Text="X Offset:" Width="46" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="32,215,32,0" />
-            <TextBlock Grid.Column="0" Text="Y Offset:" Width="47" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"  RenderTransformOrigin="0.5,0.5" Margin="31,257,32,0"/>
+            <TextBlock Grid.Column="0" Text="X Offset:" Width="47" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"  RenderTransformOrigin="0.5,0.5" Margin="32,0,31,94.8" />
+            <TextBlock Grid.Column="0" Text="Y Offset:" Width="48" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"  RenderTransformOrigin="0.5,0.5" Margin="32,0,30,51.8"/>
+            <Button Grid.Row="0" Content="Return" Width="91" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="ReturnFromOffset_Click" Margin="0,0,0,23"/>
             <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.511" Width="200" Height="120" Grid.Column="2" Margin="0,7,0,0">
                 <Grid Grid.Column="1" Margin="2,2,-2.2,-1.8">
 
@@ -87,16 +91,18 @@
                     <TextBlock Grid.Row="0" x:Name="StepSize" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Step Size"/>
                 </Grid>
             </Border>
-            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Height="119" Margin="0,7,0,0" VerticalAlignment="Top" Width="119" Grid.Column="3">
+            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Height="119" Margin="0,7,0,0" VerticalAlignment="Top" Width="120" Grid.Column="3">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="ZeroX" Content="Zero X" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="75" Margin="12,0,12,6.8" Click="ZeroX_Click"/>
+                    <Button x:Name="ZeroX" Content="Zero X" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroX_Click"/>
                     <Button x:Name="ZeroY" Content="Zero Y" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroY_Click"/>
                     <Button x:Name="ZeroZ" Content="Zero Z" Grid.Row="2" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroZ_Click"/>
+                    <Button x:Name="ZeroA" Content="Zero A" Grid.Row="3" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Click="ZeroA_Click"/>
                 </Grid>
             </Border>
             <Border  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.511" Width="200" Height="120" Grid.Column="2" Margin="0,150,0,0">
