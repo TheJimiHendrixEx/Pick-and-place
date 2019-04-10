@@ -29,11 +29,50 @@
 
         <Grid Grid.Column="0" Margin="26,15,26,388.2">
         </Grid>
-
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Button Content="Exit" x:Name="Exit_but" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF8C00" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7" Height="55" Width="154" Click="Exit_but_Click"/>
+            <Button Content="STOP" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFB0707" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7" Height="55" Width="154" Grid.Column="1"/>
+            <Grid Grid.Column="0" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="50" Margin="10,0,0,0" Name="Xdisplay" Text="" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="50" Margin="10,0,0,0" Name="Ydisplay" Text="" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="50" Margin="10,0,0,0" Name="Zdisplay" Text="" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="50" Margin="10,0,0,0" Name="Adisplay" Text="" IsReadOnly="True"/>
+                    <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="X Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Y Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Z Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" TextWrapping="Wrap" Text="A Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                </Grid>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Current Coordinates" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
         <!-- Bottom Grid START -->
         <Grid HorizontalAlignment="Center" Margin="26,458,26,10.2" Width="719" Grid.Column="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110*"/>
                 <ColumnDefinition Width="169*"/>
                 <ColumnDefinition Width="261*"/>
                 <ColumnDefinition Width="179*"/>
@@ -49,11 +88,11 @@
                     <RowDefinition Height="40*"/>
                     <RowDefinition Height="40*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Text="Video Device:" Width="72" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" />
-                <Button Content="Screenshot" Width="90" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1"/>
-                <Button Content="Grid Toggle" Width="90" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="2"/>
-                <TextBlock Grid.Column="0" Text="X Offset:" Width="47" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"  RenderTransformOrigin="0.5,0.5" Grid.Row="3"/>
-                <TextBlock Grid.Column="0" Text="Y Offset:" Width="48" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"  RenderTransformOrigin="0.5,0.5" Grid.Row="4"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Video Device:" Width="72" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" />
+                <Button Grid.Column="0" Grid.Row="1" Content="Screenshot" Width="90" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                <Button Grid.Column="0" Grid.Row="2" Content="Grid Toggle" Width="90" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="X Offset:" Width="47" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"  RenderTransformOrigin="0.5,0.5"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Y Offset:" Width="48" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"  RenderTransformOrigin="0.5,0.5"/>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -159,18 +198,6 @@
 
         <!-- Bottom Grid END -->
         <Button Content="Go" Grid.Column="1" HorizontalAlignment="Center"  Width="75" Margin="287.2,589,100.2,263" Click="GoButton" Height="20"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="301,469,0,0" VerticalAlignment="Top" Width="80" Grid.Column="1"/>
-        <Grid Margin="301,469,82,201.2" Grid.Column="1">
-            <RadioButton Content="Video 1" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="20"/>
-            <RadioButton Content="Video 2" HorizontalAlignment="Left" Margin="5,25,0,0" VerticalAlignment="Top" Height="20"/>
-            <RadioButton Content="Video 3" HorizontalAlignment="Left" Margin="5,45,0,0" VerticalAlignment="Top" Height="20"/>
-            <RadioButton Content="Video 4" HorizontalAlignment="Left" Margin="5,65,0,0" VerticalAlignment="Top" Height="20"/>
-            <RadioButton Content="Video 5" HorizontalAlignment="Left" Margin="5,85,0,0" VerticalAlignment="Top" Height="20"/>
-            <RadioButton Content="Video 6" HorizontalAlignment="Left" Margin="5,105,0,0" VerticalAlignment="Top" Height="20"/>
-            <RadioButton Content="Grid" HorizontalAlignment="Left" Margin="5,125,0,0" VerticalAlignment="Top" Height="20"/>
-        </Grid>
-        <Button Grid.Column="1" Content="STOP" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFFB0707" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7" Height="55" Width="155" Margin="200,0,0,50"/>
-        <Button Grid.Column="1" Content="Exit" Name="Exit_but" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FF8C00" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7" Height="55" Width="155" Margin="0,0,200,50" Click="Exit_but_Click"/>
     </Grid>
 
 
