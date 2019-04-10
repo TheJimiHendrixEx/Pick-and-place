@@ -68,6 +68,16 @@
                 </Grid>
                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Current Coordinates" VerticalAlignment="Center"/>
             </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Connection Status" />
+                <TextBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" Text="" Height="20" Width="120"/>
+
+            </Grid>
         </Grid>
         <!-- Bottom Grid START -->
         <Grid HorizontalAlignment="Center" Margin="26,458,26,10.2" Width="719" Grid.Column="0">
