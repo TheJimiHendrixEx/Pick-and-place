@@ -73,9 +73,9 @@ void dda_move(long micro_delay)
 	//do our DDA line!
 	do
 	{
-		x_can_step = can_step(X_MIN_PIN, X_MAX_PIN, current_steps.x, target_steps.x, x_direction);
-		y_can_step = can_step(Y_MIN_PIN, Y_MAX_PIN, current_steps.y, target_steps.y, y_direction);
-		z_can_step = can_step(Z_MIN_PIN, Z_MAX_PIN, current_steps.z, target_steps.z, z_direction);
+		x_can_step = can_step('x',X_MIN_PIN, X_MAX_PIN, current_steps.x, target_steps.x, x_direction);
+		y_can_step = can_step('y',Y_MIN_PIN, Y_MAX_PIN, current_steps.y, target_steps.y, y_direction);
+		z_can_step = can_step('z', Z_MIN_PIN, Z_MAX_PIN, current_steps.z, target_steps.z, z_direction);
 
 		if (x_can_step)
 		{
@@ -126,9 +126,6 @@ void dda_move(long micro_delay)
 					current_steps.z--;
 			}
 		}
-		
-		
-				
 		//wait for next step.
 		if (milli_delay > 0)
 			delay(milli_delay);			
@@ -144,18 +141,21 @@ void dda_move(long micro_delay)
 	calculate_deltas();
 }
 
-bool can_step(byte min_pin, byte max_pin, long current, long target, byte direction)
+bool can_step(char axis, byte min_pin, byte max_pin, long current, long target, byte direction)
 {
 	//stop us if we're on target
 	if (target == current)
 		return false;
 	//stop us if we're at home and still going 
-	else if (read_switch(min_pin) && !direction)
+	else if (read_switch(min_pin) && !direction){
+    Serial.println(axis + " min limit reached" + current);
 		return false;
+	}
 	//stop us if we're at max and still going
-	else if (read_switch(max_pin) && direction)
+	else if (read_switch(max_pin) && direction){
+    Serial.println(axis + " max limit reached at " + current);
 		return false;
-
+	}
 	//default to being able to step
 	return true;
 }

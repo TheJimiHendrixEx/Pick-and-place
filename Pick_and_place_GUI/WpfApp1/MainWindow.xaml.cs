@@ -21,9 +21,18 @@ namespace WpfApp1
         static public Boolean _continue = false;
         Thread Readthread = new Thread(Read);
 
-        float xpos = 0;
-        float ypos = 0;
-        float zpos = 0;
+        public static readonly DependencyProperty xposproperty =
+            DependencyProperty.Register("xpos", typeof(float), typeof(Window), new PropertyMetadata(null));
+
+        public float xpos
+        {
+            get { return (float)GetValue(xposproperty); }
+            set { SetValue(xposproperty, value); }
+        }
+        static Boolean max = false;
+        static float bs = 0;
+        static float ypos = 0;
+        static float zpos = 0;
         float apos = 0;
         float xOffsetVal = 0;
         float yOffsetVal = 0;
@@ -40,8 +49,8 @@ namespace WpfApp1
 
             VideoDevices = EncoderDevices.FindDevices(EncoderDeviceType.Video);
             AudioDevices = EncoderDevices.FindDevices(EncoderDeviceType.Audio);
-        }
 
+        }
         public void PopulateComboBox()
         {
             foreach (string s in SerialPort.GetPortNames())
@@ -102,7 +111,7 @@ namespace WpfApp1
                     xpos -= intIndex;
                     command = "G1 X" + xpos + " F" + feedrate;
                 }
-                else if(e.Key == Key.Right)
+                else if (e.Key == Key.Right)
                 {
                     xpos += intIndex;
                     command = "G1 X" + xpos + " F" + feedrate;
@@ -117,9 +126,15 @@ namespace WpfApp1
                     zpos -= intIndex;
                     command = "G1 Z" + ypos + " F" + feedrate;
                 }
-                
+            try
+            {
                 com.WriteLine(command);
             }
+            catch
+            {
+                MessageBox.Show("Command failed puto");
+            }
+        }
            
         
 
@@ -160,11 +175,21 @@ namespace WpfApp1
         }
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            com.BaudRate = Convert.ToInt32(Rates.Text);
-            com.PortName = Ports.Text;
-            com.Open();
-            _continue = true;
-            Readthread.Start();
+            try
+            {
+                com.BaudRate = Convert.ToInt32(Rates.Text);
+                com.PortName = Ports.Text;
+                com.Open();
+                MessageBox.Show("Connection Successful");
+                _continue = true;
+                Readthread.Start();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Connection failed:: " + ex.Message, "Error bitch!!!!");
+            }
+
+
         }
 
         public static void Read()
@@ -174,6 +199,23 @@ namespace WpfApp1
                 try
                 {
                     string message = com.ReadLine();
+                    if(message.Contains("max limit reached"))
+                    {
+                        MessageBox.Show(message);
+                        switch (message.Substring(0))
+                        {
+                            case "x":
+                                max = true;
+                                bs = int.Parse(message.Substring(20, message.Length));
+                                break;
+
+                            case "y":
+                                ypos = int.Parse(message.Substring(20, message.Length));
+                                break;
+                        }
+
+
+                    }
                     Console.WriteLine(message);
                 }
                 catch (TimeoutException) { }
@@ -286,7 +328,8 @@ namespace WpfApp1
 
         private void GoToOffset_Click(object sender, RoutedEventArgs e)
         {
-            // Local Variables for Offset Coords
+            //Local Variables for Offset Coords
+
             xpos += xOffsetVal;
             ypos += yOffsetVal;
             command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
@@ -311,6 +354,33 @@ namespace WpfApp1
         private void YOffset_TextChanged(object sender, TextChangedEventArgs e)
         {
             yOffsetVal = float.Parse(yOffset.Text);
+        }
+
+        private void Xdisplay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (max)
+            {
+                xpos = bs;
+            }
+        }
+
+        private void Import_Click(object sender, RoutedEventArgs e)
+        {
+
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document"; // Default file name 
+            dlg.DefaultExt = ".txt"; // Default file extension 
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show open file dialog box 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+            }
         }
     }
 }
