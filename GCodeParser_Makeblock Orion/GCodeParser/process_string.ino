@@ -3,12 +3,14 @@ struct LongPoint {
 	long x;
 	long y;
  	long z;
+  long a;
 };
 
 struct FloatPoint {
 	float x;
 	float y;
  	float z;
+  float a;
 };
 
 FloatPoint current_units;
@@ -25,12 +27,14 @@ boolean abs_mode = false;   //0 = incremental; 1 = absolute
 float x_units = X_STEPS_PER_MM;
 float y_units = Y_STEPS_PER_MM;
 float z_units = Z_STEPS_PER_MM;
+float a_units = A_STEPS_PER_MM;
 float curve_section = CURVE_SECTION_MM;
 
 //our direction vars
 byte x_direction = 1;
 byte y_direction = 1;
 byte z_direction = 1;
+byte a_direction = 1;
 
 //init our string processing
 void init_process_string()
@@ -60,6 +64,7 @@ void process_string(char instruction[], int size)
 	fp.x = 0.0;
 	fp.y = 0.0;
 	fp.z = 0.0;
+  fp.a = 0.0;
 
 	byte code = 0;
 	
@@ -69,7 +74,8 @@ void process_string(char instruction[], int size)
 		has_command('G', instruction, size) ||
 		has_command('X', instruction, size) ||
 		has_command('Y', instruction, size) ||
-		has_command('Z', instruction, size))
+		has_command('Z', instruction, size) ||
+		has_command('A', instruction, size))
 	)
 	{
 		//which one?
@@ -95,7 +101,12 @@ void process_string(char instruction[], int size)
 						fp.y = search_string('Y', instruction, size);
 					else
 						fp.y = current_units.y;
-				
+
+          if (has_command('A', instruction, size))
+            fp.a = search_string('A', instruction, size);
+          else
+            fp.a = current_units.a;
+        
 					if (has_command('Z', instruction, size))
 						fp.z = search_string('Z', instruction, size);
 					else
@@ -106,6 +117,7 @@ void process_string(char instruction[], int size)
 					fp.x = search_string('X', instruction, size) + current_units.x;
 					fp.y = search_string('Y', instruction, size) + current_units.y;
 					fp.z = search_string('Z', instruction, size) + current_units.z;
+          fp.a = search_string('A', instruction, size) + current_units.a;
 				}
 
                                 targetPosServo = fp.z;
@@ -120,7 +132,7 @@ void process_string(char instruction[], int size)
 			case 0:
 			case 1:
 				//set our target.
-				set_target(fp.x, fp.y, fp.z);
+				set_target(fp.x, fp.y, fp.z, fp.a);
                                 servo.write(targetPosServo); 
 				//do we have a set speed?
 				if (has_command('G', instruction, size))
@@ -196,7 +208,7 @@ void process_string(char instruction[], int size)
 					step = (code == 3) ? s : steps - s; // Work backwards for CW
 					newPoint.x = cent.x + radius * cos(angleA + angle * ((float) step / steps));
 					newPoint.y = cent.y + radius * sin(angleA + angle * ((float) step / steps));
-					set_target(newPoint.x, newPoint.y, fp.z);
+					set_target(newPoint.x, newPoint.y, fp.z, fp.a);
 
 					// Need to calculate rate for each section of curve
 					if (feedrate > 0)
@@ -220,6 +232,7 @@ void process_string(char instruction[], int size)
 				x_units = X_STEPS_PER_INCH;
 				y_units = Y_STEPS_PER_INCH;
 				z_units = Z_STEPS_PER_INCH;
+        a_units = A_STEPS_PER_INCH;
 				curve_section = CURVE_SECTION_INCHES;
 				
 				calculate_deltas();
@@ -230,6 +243,7 @@ void process_string(char instruction[], int size)
 				x_units = X_STEPS_PER_MM;
 				y_units = Y_STEPS_PER_MM;
 				z_units = Z_STEPS_PER_MM;
+        a_units = A_STEPS_PER_MM;
 				curve_section = CURVE_SECTION_MM;
 				
 				calculate_deltas();
@@ -237,7 +251,7 @@ void process_string(char instruction[], int size)
 
 			//go home.
 			case 28:
-				set_target(0.0, 0.0, 0.0);
+				set_target(0.0, 0.0, 0.0, 0.0);
 				dda_move(getMaxSpeed());
 			break;
 
@@ -246,7 +260,7 @@ void process_string(char instruction[], int size)
 				fp.x = search_string('X', instruction, size);
 				fp.y = search_string('Y', instruction, size);
 				fp.z = search_string('Z', instruction, size);
-
+        fp.a = search_string('a', instruction, size);
 				//set our target.
 				if(abs_mode)
 				{
@@ -256,17 +270,18 @@ void process_string(char instruction[], int size)
 						fp.y = current_units.y;
 					if (!has_command('Z', instruction, size))
 						fp.z = current_units.z;
-						
-					set_target(fp.x, fp.y, fp.z);
+          if (!has_command('A', instruction, size))
+            fp.a = current_units.a;
+            
+					set_target(fp.x, fp.y, fp.z, fp.a);
 				}
 				else
-					set_target(current_units.x + fp.x, current_units.y + fp.y, current_units.z + fp.z);
-				
+					set_target(current_units.x + fp.x, current_units.y + fp.y, current_units.z + fp.z, current_units.a + fp.a);
 				//go there.
 				dda_move(getMaxSpeed());
 
 				//go home.
-				set_target(0.0, 0.0, 0.0);
+				set_target(0.0, 0.0, 0.0, 0.0);
 				dda_move(getMaxSpeed());
 			break;
 
@@ -283,7 +298,14 @@ void process_string(char instruction[], int size)
 
 			//Set as home
 			case 92:
-				set_position(0.0, 0.0, 0.0);
+        if(has_command('X', instruction, size))
+				  set_position(0.0, fp.y, fp.z, fp.a);
+        if(has_command('Y', instruction, size))
+          set_position(fp.x, 0.0, fp.z, fp.a);
+        if(has_command('Z', instruction, size))
+          set_position(fp.x, fp.y, 0.0, fp.a);
+        if(has_command('A', instruction, size))
+          set_position(fp.x, fp.y, fp.z, 0.0);
 			break;
 /*
 			//Inverse Time Feed Mode
@@ -333,6 +355,11 @@ void process_string(char instruction[], int size)
                 pinMode(Y_STEP_PIN,OUTPUT);
                 digitalWrite(Y_STEP_PIN,LOW);
             }
+            if (has_command('A', instruction, size)){
+    A_STEP_PIN = search_string('A', instruction, size);
+                pinMode(A_STEP_PIN,OUTPUT);
+                digitalWrite(A_STEP_PIN,LOW);
+            }
             if (has_command('Z', instruction, size)){
 		int TEMP_PIN = search_string('Z', instruction, size);
                 
@@ -359,6 +386,11 @@ void process_string(char instruction[], int size)
                 pinMode(Y_DIR_PIN,OUTPUT);
                 digitalWrite(Y_DIR_PIN,LOW);
             }
+            if (has_command('A', instruction, size)){
+    A_DIR_PIN = search_string('A', instruction, size);
+                pinMode(A_DIR_PIN,OUTPUT);
+                digitalWrite(A_DIR_PIN,LOW);
+            }
             if (has_command('Z', instruction, size)){
 		Z_DIR_PIN = search_string('Z', instruction, size);
                 pinMode(Z_DIR_PIN,OUTPUT);
@@ -375,6 +407,10 @@ void process_string(char instruction[], int size)
 		Y_MIN_PIN = search_string('Y', instruction, size);
                 pinMode(Y_MIN_PIN,INPUT_PULLUP);
             }
+            if (has_command('A', instruction, size)){
+    A_MIN_PIN = search_string('A', instruction, size);
+                pinMode(A_MIN_PIN,INPUT_PULLUP);
+            }
             if (has_command('Z', instruction, size)){
 		Z_MIN_PIN = search_string('Z', instruction, size);
                 pinMode(Z_MIN_PIN,INPUT_PULLUP);
@@ -389,6 +425,10 @@ void process_string(char instruction[], int size)
             if (has_command('Y', instruction, size)){
 		Y_MAX_PIN = search_string('Y', instruction, size);
                 pinMode(Y_MAX_PIN,INPUT_PULLUP);
+            }
+            if (has_command('A', instruction, size)){
+    A_MAX_PIN = search_string('A', instruction, size);
+                pinMode(A_MAX_PIN,INPUT_PULLUP);
             }
             if (has_command('Z', instruction, size)){
 		Z_MAX_PIN = search_string('Z', instruction, size);
@@ -413,6 +453,10 @@ void process_string(char instruction[], int size)
 		Y_STEPS_PER_MM = search_string('Y', instruction, size);
                 y_units = Y_STEPS_PER_MM;
             }
+             if (has_command('A', instruction, size)){
+    A_STEPS_PER_MM = search_string('A', instruction, size);
+                a_units = A_STEPS_PER_MM;
+            }
             if (has_command('Z', instruction, size)){
 		Z_STEPS_PER_MM = search_string('Z', instruction, size);
                 z_units = Z_STEPS_PER_MM;
@@ -425,6 +469,9 @@ void process_string(char instruction[], int size)
             }else if (has_command('Y', instruction, size)){
 		FAST_XY_FEEDRATE = search_string('Y', instruction, size);
             }
+            else if (has_command('A', instruction, size)){
+    FAST_XY_FEEDRATE = search_string('A', instruction, size);
+            }
             if (has_command('Z', instruction, size)){
 		FAST_Z_FEEDRATE = search_string('Z', instruction, size);
             }
@@ -436,7 +483,6 @@ void process_string(char instruction[], int size)
             }
             break;
             }
-            
         }
 	//tell our host we're done.
       if(code==0&&size==1){

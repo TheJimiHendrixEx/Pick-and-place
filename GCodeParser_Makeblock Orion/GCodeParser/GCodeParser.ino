@@ -1,4 +1,7 @@
 #include <Servo.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
 // define the parameters of our machine.
 float X_STEPS_PER_INCH = 48;
 float X_STEPS_PER_MM = 40;
@@ -12,9 +15,14 @@ float Z_STEPS_PER_INCH = 48;
 float Z_STEPS_PER_MM   = 40;
 int Z_MOTOR_STEPS    = 100;
 
+float A_STEPS_PER_INCH = 48;
+float A_STEPS_PER_MM = 40;
+int A_MOTOR_STEPS = 100;
+
 //our maximum feedrates
-long FAST_XY_FEEDRATE = 2000;
-long FAST_Z_FEEDRATE = 2000;
+long FAST_XY_FEEDRATE = 4000;
+long FAST_Z_FEEDRATE = 4000;
+long FAST_A_FEEDRATE = 4000;
 
 // Units in curve section
 #define CURVE_SECTION_INCHES 0.019685
@@ -50,6 +58,15 @@ int Z_ENABLE_PIN = -1;
 int Z_MIN_PIN = -1;
 int Z_MAX_PIN = -1;
 int Z_ENABLE_SERVO = 0;
+
+// Replace the pins!!!!
+int A_DIR_PIN = 5;
+int A_STEP_PIN = 6;
+int A_ENABLE_PIN = 13;
+int A_MIN_PIN = 24;
+int A_MAX_PIN = 4;
+
+
 #define COMMAND_SIZE 128
 
 char commands[COMMAND_SIZE];
@@ -57,6 +74,8 @@ byte serial_count;
 int no_data = 0;
 
 Servo servo;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
 
 int currentPosServo = 90;
 int targetPosServo = 90;
@@ -64,7 +83,12 @@ bool comment = false;
 void setup()
 {
 	//Do startup stuff here
-	Serial.begin(115200);
+ lcd.begin();
+ lcd.backlight();
+ lcd.print("Candice dick fit");
+ lcd.setCursor(0,1);
+ lcd.print("into you");
+ Serial.begin(115200);
         if(Z_ENABLE_SERVO==1){
           servo.attach(Z_STEP_PIN);
         }
@@ -72,12 +96,12 @@ void setup()
 	init_process_string();
 	init_steppers();
 	process_string("G90",3);//Absolute Position
-        Serial.println("start");
+  Serial.println("start");
+  
 }
 
 void loop()
 {
-  
 	char c;
 	//read in characters if we got them.
 	if (Serial.available() > 0)
@@ -113,6 +137,8 @@ void loop()
 	//if theres a pause or we got a real command, do it
 	if (serial_count && (c == '\n' || no_data > 100))
 	{
+    lcd.clear();
+    lcd.print(commands);
 		//process our command!
 		process_string(commands, serial_count);
 		//clear command.

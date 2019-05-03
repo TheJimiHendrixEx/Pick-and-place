@@ -1,12 +1,16 @@
 
 //init our variables
+long max_delta1;
+long max_delta2;
 long max_delta;
 long x_counter;
 long y_counter;
 long z_counter;
+long a_counter;
 bool x_can_step;
 bool y_can_step;
 bool z_can_step;
+bool a_can_step;
 int milli_delay;
 
 void init_steppers()
@@ -18,9 +22,11 @@ void init_steppers()
 	current_units.x = 0.0;
 	current_units.y = 0.0;
 	current_units.z = 0.0;
+  current_units.a = 0.0;
 	target_units.x = 0.0;
 	target_units.y = 0.0;
 	target_units.z = 0.0;
+  target_units.a = 0.0;
 	
 	pinMode(X_STEP_PIN, OUTPUT);
 	pinMode(X_DIR_PIN, OUTPUT);
@@ -39,7 +45,13 @@ void init_steppers()
 	pinMode(Z_ENABLE_PIN, OUTPUT);
 	pinMode(Z_MIN_PIN, INPUT_PULLUP);
 	pinMode(Z_MAX_PIN, INPUT_PULLUP);
-	
+
+  pinMode(A_STEP_PIN, OUTPUT);
+  pinMode(A_DIR_PIN, OUTPUT);
+  pinMode(A_ENABLE_PIN, OUTPUT);
+  pinMode(A_MIN_PIN, INPUT_PULLUP);
+  pinMode(A_MAX_PIN, INPUT_PULLUP);
+  
 	//figure our stuff.
 	calculate_deltas();
 }
@@ -50,21 +62,25 @@ void dda_move(long micro_delay)
 	digitalWrite(X_ENABLE_PIN, HIGH);
 	digitalWrite(Y_ENABLE_PIN, HIGH);
 	digitalWrite(Z_ENABLE_PIN, HIGH);
+  digitalWrite(A_ENABLE_PIN, HIGH);
 	
 	//figure out our deltas
-	max_delta = max(delta_steps.x, delta_steps.y);
-	max_delta = max(delta_steps.z, max_delta);
-
+	max_delta1 = max(delta_steps.x, delta_steps.y);
+	max_delta2 = max(delta_steps.z, delta_steps.a);
+  max_delta = max(max_delta2, max_delta1);
+  
 	//init stuff.
 	long x_counter = -max_delta/2;
 	long y_counter = -max_delta/2;
 	long z_counter = -max_delta/2;
+  long a_counter = -max_delta/2;
 	
 	//our step flags
 	bool x_can_step = 0;
 	bool y_can_step = 0;
 	bool z_can_step = 0;
-	
+  bool a_can_step = 0;
+  
 	if (micro_delay >= 16383)
 		milli_delay = micro_delay / 1000;
 	else
@@ -76,6 +92,7 @@ void dda_move(long micro_delay)
 		x_can_step = can_step('x',X_MIN_PIN, X_MAX_PIN, current_steps.x, target_steps.x, x_direction);
 		y_can_step = can_step('y',Y_MIN_PIN, Y_MAX_PIN, current_steps.y, target_steps.y, y_direction);
 		z_can_step = can_step('z', Z_MIN_PIN, Z_MAX_PIN, current_steps.z, target_steps.z, z_direction);
+    a_can_step = can_step('a', A_MIN_PIN, A_MAX_PIN, current_steps.a, target_steps.a, a_direction);
 
 		if (x_can_step)
 		{
@@ -108,6 +125,21 @@ void dda_move(long micro_delay)
 					current_steps.y--;
 			}
 		}
+   if (a_can_step)
+   {
+      a_counter += delta_steps.a;
+      
+      if (a_counter > 0)
+      {
+        do_step(A_STEP_PIN, A_DIR_PIN, a_direction);
+        a_counter -= max_delta;
+        
+        if (a_direction)
+          current_steps.a++;
+        else
+          current_steps.a--;
+      }
+    }
 		
 		if (z_can_step)
 		{
@@ -115,7 +147,7 @@ void dda_move(long micro_delay)
 			
 			if (z_counter > 0)
 			{
-                                if(Z_ENABLE_SERVO==0){
+        if(Z_ENABLE_SERVO==0){
 				  do_step(Z_STEP_PIN, Z_DIR_PIN, z_direction);
                                 }
 				z_counter -= max_delta;
@@ -132,12 +164,13 @@ void dda_move(long micro_delay)
 		else
 			delayMicroseconds(micro_delay);
 	}
-	while (x_can_step || y_can_step || z_can_step);
+	while (x_can_step || y_can_step || z_can_step || a_can_step);
 	
 	//set our points to be the same
 	current_units.x = target_units.x;
 	current_units.y = target_units.y;
 	current_units.z = target_units.z;
+  current_units.a = target_units.a;
 	calculate_deltas();
 }
 
@@ -199,20 +232,22 @@ long to_steps(float steps_per_unit, float units)
 	return steps_per_unit * units;
 }
 
-void set_target(float x, float y, float z)
+void set_target(float x, float y, float z, float a)
 {
 	target_units.x = x;
 	target_units.y = y;
 	target_units.z = z;
+  target_units.a = a;
 	
 	calculate_deltas();
 }
 
-void set_position(float x, float y, float z)
+void set_position(float x, float y, float z, float a)
 {
 	current_units.x = x;
 	current_units.y = y;
 	current_units.z = z;
+  current_units.a = a;
 	
 	calculate_deltas();
 }
@@ -223,52 +258,76 @@ void calculate_deltas()
 	delta_units.x = abs(target_units.x - current_units.x);
 	delta_units.y = abs(target_units.y - current_units.y);
 	delta_units.z = abs(target_units.z - current_units.z);
-				
+	delta_units.a = abs(target_units.a - current_units.a);
+  
 	//set our steps current, target, and delta
 	current_steps.x = to_steps(x_units, current_units.x);
 	current_steps.y = to_steps(y_units, current_units.y);
 	current_steps.z = to_steps(z_units, current_units.z);
+  current_steps.a = to_steps(a_units, current_units.a);
 
 	target_steps.x = to_steps(x_units, target_units.x);
 	target_steps.y = to_steps(y_units, target_units.y);
 	target_steps.z = to_steps(z_units, target_units.z);
-
+  target_steps.a = to_steps(a_units, target_units.a);
+  
 	delta_steps.x = abs(target_steps.x - current_steps.x);
 	delta_steps.y = abs(target_steps.y - current_steps.y);
 	delta_steps.z = abs(target_steps.z - current_steps.z);
-	
+  delta_steps.a = abs(target_steps.a - current_steps.a);
+  
 	//what is our direction
 	x_direction = (target_units.x >= current_units.x);
 	y_direction = (target_units.y >= current_units.y);
 	z_direction = (target_units.z >= current_units.z);
+  a_direction = (target_units.a >= current_units.a);
 
 	//set our direction pins as well
 	digitalWrite(X_DIR_PIN, x_direction);
 	digitalWrite(Y_DIR_PIN, y_direction);
 	digitalWrite(Z_DIR_PIN, z_direction);
+  digitalWrite(A_DIR_PIN, a_direction);
 }
 
 
 long calculate_feedrate_delay(float feedrate)
 {
 	//how long is our line length?
-	float distance = sqrt(delta_units.x*delta_units.x + delta_units.y*delta_units.y + delta_units.z*delta_units.z);
+	float distance = sqrt(delta_units.x*delta_units.x + delta_units.y*delta_units.y + delta_units.z*delta_units.z + delta_units.a*delta_units.a);
 	long master_steps = 0;
 	
 	//find the dominant axis.
 	if (delta_steps.x > delta_steps.y)
 	{
-		if (delta_steps.z > delta_steps.x)
-			master_steps = delta_steps.z;
-		else
-			master_steps = delta_steps.x;
+    if (delta_steps.z > delta_steps.a)
+    {
+       if (delta_steps.z > delta_steps.x)
+         master_steps = delta_steps.z;      
+       else
+         master_steps = delta_steps.x;
+    }
+    else{
+      if (delta_steps.a > delta_steps.x)
+         master_steps = delta_steps.a;      
+       else
+         master_steps = delta_steps.x;
+    }
 	}
 	else
 	{
-		if (delta_steps.z > delta_steps.y)
-			master_steps = delta_steps.z;
-		else
-			master_steps = delta_steps.y;
+		if (delta_steps.z > delta_steps.a)
+    {
+       if (delta_steps.z > delta_steps.y)
+         master_steps = delta_steps.z;      
+       else
+         master_steps = delta_steps.y;
+    }
+    else{
+      if (delta_steps.a > delta_steps.y)
+         master_steps = delta_steps.a;      
+       else
+         master_steps = delta_steps.y;
+    }
 	}
 
 	//calculate delay between steps in microseconds.  this is sort of tricky, but not too bad.
@@ -293,4 +352,5 @@ void disable_steppers()
 	digitalWrite(X_ENABLE_PIN, LOW);
 	digitalWrite(Y_ENABLE_PIN, LOW);
 	digitalWrite(Z_ENABLE_PIN, LOW);
+  digitalWrite(A_ENABLE_PIN, LOW);
 }

@@ -6,13 +6,16 @@ using System.Windows.Controls;
 using System.IO.Ports;
 using System;
 using System.Threading;
-
+using System.ComponentModel;
 
 namespace WpfApp1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+   
     public partial class MainWindow : Window
     {
         public Collection<EncoderDevice> VideoDevices { get; set; }
@@ -21,24 +24,57 @@ namespace WpfApp1
         static public Boolean _continue = false;
         Thread Readthread = new Thread(Read);
 
-        public static readonly DependencyProperty xposproperty =
-            DependencyProperty.Register("xpos", typeof(float), typeof(Window), new PropertyMetadata(null));
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
-        public float xpos
+        private static double _xpos = 0;
+        public static double xpos
         {
-            get { return (float)GetValue(xposproperty); }
-            set { SetValue(xposproperty, value); }
+            get { return _xpos; }
+            set
+            {
+                if(_xpos != value)
+                {
+                    _xpos = value;
+                    StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs("xpos"));
+                }
+            }
         }
-        static Boolean max = false;
-        static float bs = 0;
-        static float ypos = 0;
-        static float zpos = 0;
+
+        private static double _ypos = 0;
+        public static double ypos
+        {
+            get { return _ypos; }
+            set
+            {
+                if(_ypos != value)
+                {
+                    _ypos = value;
+                    StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs("ypos"));
+                }
+            }
+        }
+
+        private static double _zpos = 0;
+        public static double zpos
+        {
+            get { return _zpos; }
+            set
+            {
+                if(_zpos != value)
+                {
+                    _zpos = value;
+                    StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs("zpos"));
+                }
+            }
+        }
+
         float apos = 0;
         float xOffsetVal = 0;
         float yOffsetVal = 0;
-        int feedrate = 2500;
+        int feedrate = 4000;
         int intIndex = 0;
         string command = "";
+       
 
         public MainWindow()
         {
@@ -49,7 +85,7 @@ namespace WpfApp1
 
             VideoDevices = EncoderDevices.FindDevices(EncoderDeviceType.Video);
             AudioDevices = EncoderDevices.FindDevices(EncoderDeviceType.Audio);
-
+            
         }
         public void PopulateComboBox()
         {
@@ -96,44 +132,39 @@ namespace WpfApp1
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
                 string command = "";
-                if (e.Key == Key.Down)
-                {
-                    ypos -= intIndex;
-                    command = "G1 Y" + ypos + " F" + feedrate;
-                }
-                else if (e.Key == Key.Up)
-                {
-                    ypos += intIndex;
-                    command = "G1 Y" + ypos + " F" + feedrate;
-                }
-                else if (e.Key == Key.Left)
-                {
-                    xpos -= intIndex;
-                    command = "G1 X" + xpos + " F" + feedrate;
-                }
-                else if (e.Key == Key.Right)
-                {
-                    xpos += intIndex;
-                    command = "G1 X" + xpos + " F" + feedrate;
-                }
-                else if (e.Key == Key.U)
-                {
-                    zpos += intIndex;
-                    command = "G1 Z" + ypos + " F" + feedrate;
-                }
-                else if (e.Key == Key.D)
-                {
-                    zpos -= intIndex;
-                    command = "G1 Z" + ypos + " F" + feedrate;
-                }
-            try
+            if (e.Key == Key.Down)
+
             {
-                com.WriteLine(command);
+                ypos -= intIndex;
+                command = "G1 Y" + ypos + " F" + feedrate;
             }
-            catch
+            else if (e.Key == Key.Up)
             {
-                MessageBox.Show("Command failed puto");
+                ypos += intIndex;
+                command = "G1 Y" + ypos + " F" + feedrate;
             }
+            else if (e.Key == Key.Left)
+            {
+                xpos -= intIndex;
+                command = "G1 X" + xpos + " F" + feedrate;
+            }
+            else if (e.Key == Key.Right)
+            {
+                xpos += intIndex;
+                command = "G1 X" + xpos + " F" + feedrate;
+            }
+            else if (e.Key == Key.U)
+            {
+                zpos += intIndex;
+                command = "G1 Z" + ypos + " F" + feedrate;
+            }
+            else if (e.Key == Key.D)
+            {
+                zpos -= intIndex;
+                command = "G1 Z" + ypos + " F" + feedrate;
+            }
+
+            Serial_Com(command);
         }
            
         
@@ -169,10 +200,9 @@ namespace WpfApp1
                 // This is the correct control.
                 RadioButton rb = (RadioButton)sender;
                 intIndex = System.Convert.ToInt32(rb.Content.ToString());
-
             }
-
         }
+
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -188,8 +218,6 @@ namespace WpfApp1
             {
                 MessageBox.Show("Connection failed:: " + ex.Message, "Error bitch!!!!");
             }
-
-
         }
 
         public static void Read()
@@ -205,8 +233,7 @@ namespace WpfApp1
                         switch (message.Substring(0))
                         {
                             case "x":
-                                max = true;
-                                bs = int.Parse(message.Substring(20, message.Length));
+                                xpos = int.Parse(message.Substring(20, message.Length));
                                 break;
 
                             case "y":
@@ -237,7 +264,7 @@ namespace WpfApp1
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-            com.WriteLine("G1 X0.0 Y0.0 F2500");
+            Serial_Com("G1 X0.0 Y0.0 F2500");
         }
 
         private void Xp_Click(object sender, RoutedEventArgs e)
@@ -245,8 +272,7 @@ namespace WpfApp1
             command = "";
             xpos += intIndex;
             command = "G1 X" + xpos + " F" + feedrate;
-            com.WriteLine(command);
-
+            Serial_Com(command);
         }
 
         private void Xm_Click(object sender, RoutedEventArgs e)
@@ -254,7 +280,7 @@ namespace WpfApp1
             command = "";
             xpos -= intIndex;
             command = "G1 X" + xpos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void Yp_Click(object sender, RoutedEventArgs e)
@@ -262,7 +288,7 @@ namespace WpfApp1
             command = "";
             ypos += intIndex;
             command = "G1 Y" + ypos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void Ym_Click(object sender, RoutedEventArgs e)
@@ -270,7 +296,7 @@ namespace WpfApp1
             command = "";
             ypos -= intIndex;
             command = "G1 Y" + ypos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void Zp_Click(object sender, RoutedEventArgs e)
@@ -278,7 +304,7 @@ namespace WpfApp1
             command = "";
             zpos += intIndex;
             command = "G1 Z" + zpos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void Zm_Click(object sender, RoutedEventArgs e)
@@ -286,7 +312,7 @@ namespace WpfApp1
             command = "";
             zpos -= intIndex;
             command = "G1 Z" + zpos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void Ap_Click(object sender, RoutedEventArgs e)
@@ -294,14 +320,14 @@ namespace WpfApp1
             command = "";
             apos += intIndex;
             command = "G1 A" + apos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void Am_Click(object sender, RoutedEventArgs e)
         {
             apos -= intIndex;
             command = "G1 A" + apos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void ZeroX_Click(object sender, RoutedEventArgs e)
@@ -319,6 +345,8 @@ namespace WpfApp1
         private void ZeroZ_Click(object sender, RoutedEventArgs e)
         {
             zpos = 0;
+            command = "G92 Z0";
+            Serial_Com(command);
         }
 
         private void ZeroA_Click(object sender, RoutedEventArgs e)
@@ -333,7 +361,7 @@ namespace WpfApp1
             xpos += xOffsetVal;
             ypos += yOffsetVal;
             command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         private void ReturnOffset_Click(object sender, RoutedEventArgs e)
@@ -342,7 +370,7 @@ namespace WpfApp1
             xpos -= xOffsetVal;
             ypos -= yOffsetVal;
             command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
-            com.WriteLine(command);
+            Serial_Com(command);
         }
 
         // Automatically update offset values when entered into textbox
@@ -354,14 +382,6 @@ namespace WpfApp1
         private void YOffset_TextChanged(object sender, TextChangedEventArgs e)
         {
             yOffsetVal = float.Parse(yOffset.Text);
-        }
-
-        private void Xdisplay_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (max)
-            {
-                xpos = bs;
-            }
         }
 
         private void Import_Click(object sender, RoutedEventArgs e)
@@ -382,5 +402,19 @@ namespace WpfApp1
                 string filename = dlg.FileName;
             }
         }
+
+        private void Serial_Com(String mes)
+        {
+            try
+            {
+                com.WriteLine(mes);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+
+            }
+        }
+
     }
 }
