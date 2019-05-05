@@ -289,7 +289,6 @@ void calculate_deltas()
   digitalWrite(A_DIR_PIN, a_direction);
 }
 
-
 long calculate_feedrate_delay(float feedrate)
 {
 	//how long is our line length?

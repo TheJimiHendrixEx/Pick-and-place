@@ -466,7 +466,8 @@ void process_string(char instruction[], int size)
              //set XYZ FEEDRATE
              if (has_command('X', instruction, size)){
 		FAST_XY_FEEDRATE = search_string('X', instruction, size);
-            }else if (has_command('Y', instruction, size)){
+            }
+            else if (has_command('Y', instruction, size)){
 		FAST_XY_FEEDRATE = search_string('Y', instruction, size);
             }
             else if (has_command('A', instruction, size)){
