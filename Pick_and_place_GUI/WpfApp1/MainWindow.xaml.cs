@@ -418,9 +418,14 @@ namespace WpfApp1
             catch (Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-
             }
         }
 
+        private void Succ_Click(object sender, RoutedEventArgs e)
+        {
+            command = "G93";
+            Serial_Com(command);
+
+        }
     }
 }
