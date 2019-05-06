@@ -51,6 +51,8 @@ void init_steppers()
   pinMode(A_ENABLE_PIN, OUTPUT);
   pinMode(A_MIN_PIN, INPUT_PULLUP);
   pinMode(A_MAX_PIN, INPUT_PULLUP);
+
+  pinMode(SOLENOID, OUTPUT);
   
 	//figure our stuff.
 	calculate_deltas();

@@ -307,6 +307,17 @@ void process_string(char instruction[], int size)
         if(has_command('A', instruction, size))
           set_position(fp.x, fp.y, fp.z, 0.0);
 			break;
+
+      case 93:
+        if(toggle){
+          digitalWrite(SOLENOID, HIGH);
+          toggle = false;
+        }
+        else{
+          digitalWrite(SOLENOID, LOW);
+          toggle = true;
+        }
+        break;
 /*
 			//Inverse Time Feed Mode
 			case 93:

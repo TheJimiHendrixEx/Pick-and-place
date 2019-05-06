@@ -390,7 +390,7 @@ namespace WpfApp1
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document"; // Default file name 
             dlg.DefaultExt = ".txt"; // Default file extension 
-            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            dlg.Filter = "Text documents (.mnt)|*.mnt"; // Filter files by extension
 
             // Show open file dialog box 
             Nullable<bool> result = dlg.ShowDialog();
@@ -400,6 +400,12 @@ namespace WpfApp1
             {
                 // Open document 
                 string filename = dlg.FileName;
+                string[] x = filename.Split('\\');
+                string sourcePath = @filename;
+                string targetPath = @"C:\\Users\\ELL42\\Document\\Pick-and-place";
+                string destFile = System.IO.Path.Combine(targetPath, filename);
+                //System.IO.File.Copy(sourceFileName, );
+
             }
         }
 
