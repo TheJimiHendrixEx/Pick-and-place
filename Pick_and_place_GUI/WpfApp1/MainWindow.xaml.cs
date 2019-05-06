@@ -71,7 +71,8 @@ namespace WpfApp1
         float apos = 0;
         float xOffsetVal = 0;
         float yOffsetVal = 0;
-        int feedrate = 4000;
+        float offsetFeedrate = 10000;
+        float[] feedrate = { 4000, 4000, 4000, 4000 };
         int intIndex = 0;
         string command = "";
        
@@ -264,14 +265,16 @@ namespace WpfApp1
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-            Serial_Com("G1 X0.0 Y0.0 F2500");
+            Serial_Com("G1 X0.0 Y0.0 F5000");
+            xpos = 0;
+            ypos = 0;
         }
 
         private void Xp_Click(object sender, RoutedEventArgs e)
         {
             command = "";
             xpos += intIndex;
-            command = "G1 X" + xpos + " F" + feedrate;
+            command = "G1 X" + xpos + " F" + feedrate[0];
             Serial_Com(command);
         }
 
@@ -279,7 +282,7 @@ namespace WpfApp1
         {
             command = "";
             xpos -= intIndex;
-            command = "G1 X" + xpos + " F" + feedrate;
+            command = "G1 X" + xpos + " F" + feedrate[0];
             Serial_Com(command);
         }
 
@@ -287,7 +290,7 @@ namespace WpfApp1
         {
             command = "";
             ypos += intIndex;
-            command = "G1 Y" + ypos + " F" + feedrate;
+            command = "G1 Y" + ypos + " F" + feedrate[1];
             Serial_Com(command);
         }
 
@@ -295,7 +298,7 @@ namespace WpfApp1
         {
             command = "";
             ypos -= intIndex;
-            command = "G1 Y" + ypos + " F" + feedrate;
+            command = "G1 Y" + ypos + " F" + feedrate[1];
             Serial_Com(command);
         }
 
@@ -303,7 +306,7 @@ namespace WpfApp1
         {
             command = "";
             zpos += intIndex;
-            command = "G1 Z" + zpos + " F" + feedrate;
+            command = "G1 Z" + zpos + " F" + feedrate[2];
             Serial_Com(command);
         }
 
@@ -311,7 +314,7 @@ namespace WpfApp1
         {
             command = "";
             zpos -= intIndex;
-            command = "G1 Z" + zpos + " F" + feedrate;
+            command = "G1 Z" + zpos + " F" + feedrate[2];
             Serial_Com(command);
         }
 
@@ -319,14 +322,14 @@ namespace WpfApp1
         {
             command = "";
             apos += intIndex;
-            command = "G1 A" + apos + " F" + feedrate;
+            command = "G1 A" + apos + " F" + feedrate[3];
             Serial_Com(command);
         }
 
         private void Am_Click(object sender, RoutedEventArgs e)
         {
             apos -= intIndex;
-            command = "G1 A" + apos + " F" + feedrate;
+            command = "G1 A" + apos + " F" + feedrate[3];
             Serial_Com(command);
         }
 
@@ -360,7 +363,7 @@ namespace WpfApp1
 
             xpos += xOffsetVal;
             ypos += yOffsetVal;
-            command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
+            command = "G1 X" + xpos + " Y" + ypos + " F" + offsetFeedrate;
             Serial_Com(command);
         }
 
@@ -369,20 +372,29 @@ namespace WpfApp1
             // Reload Original Coords
             xpos -= xOffsetVal;
             ypos -= yOffsetVal;
-            command = "G1 X" + xpos + " Y" + ypos + " F" + feedrate;
+            command = "G1 X" + xpos + " Y" + ypos + " F" + offsetFeedrate;
             Serial_Com(command);
         }
 
         // Automatically update offset values when entered into textbox
         private void XOffset_TextChanged(object sender, TextChangedEventArgs e)
         {
-            xOffsetVal = float.Parse(xOffset.Text);
+            try
+            {
+                xOffsetVal = float.Parse(xOffset.Text);
+            }
+            catch(Exception ex) { }
         }
 
         private void YOffset_TextChanged(object sender, TextChangedEventArgs e)
         {
-            yOffsetVal = float.Parse(yOffset.Text);
+            try
+            {
+                yOffsetVal = float.Parse(yOffset.Text);
+            }
+            catch(Exception ex){ }
         }
+
 
         private void Import_Click(object sender, RoutedEventArgs e)
         {
@@ -421,11 +433,57 @@ namespace WpfApp1
             }
         }
 
+        // Toggle the succ
         private void Succ_Click(object sender, RoutedEventArgs e)
         {
             command = "G93";
             Serial_Com(command);
 
+        }
+
+        private void Pick_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Place_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // Automatically update feedrate value
+        private void XFeedrate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try {
+                feedrate[0] = float.Parse(xFeedrate.Text);
+                }
+            catch(Exception ex) { }
+        }
+        private void YFeedrate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                feedrate[1] = float.Parse(yFeedrate.Text);
+            }
+            catch (Exception ex) { }
+        }
+
+        private void ZFeedrate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                feedrate[2] = float.Parse(zFeedrate.Text);
+            }
+            catch (Exception ex) { }
+        }
+
+        private void AFeedrate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                feedrate[3] = float.Parse(aFeedrate.Text);
+            }
+            catch(Exception ex) { }
         }
     }
 }

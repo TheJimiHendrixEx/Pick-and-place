@@ -20,7 +20,7 @@ float A_STEPS_PER_MM = 40;
 int A_MOTOR_STEPS = 100;
 
 //our maximum feedrates
-long FAST_XY_FEEDRATE = 8000;
+long FAST_XY_FEEDRATE = 20000;
 long FAST_Z_FEEDRATE = 4000;
 long FAST_A_FEEDRATE = 4000;
 
@@ -31,7 +31,6 @@ long FAST_A_FEEDRATE = 4000;
 // Set to one if sensor outputs inverting (ie: 1 means open, 0 means closed)
 // RepRap opto endstops are *not* inverting.
 int SENSORS_INVERTING = 1;
-
 
 int SOLENOID = 3;
 bool toggle = false;
