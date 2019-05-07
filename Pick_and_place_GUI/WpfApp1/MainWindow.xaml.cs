@@ -485,5 +485,56 @@ namespace WpfApp1
             }
             catch(Exception ex) { }
         }
+
+        private void XsetDisplay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                xpos = float.Parse(XsetDisplay.Text);
+            }
+            catch(Exception ex) { }
+        }
+
+        private void YsetDisplay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                ypos = float.Parse(XsetDisplay.Text);
+            }
+            catch (Exception ex) { }
+        }
+
+        private void ZsetDisplay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                zpos = float.Parse(XsetDisplay.Text);
+            }
+            catch (Exception ex) { }
+        }
+
+        private void AsetDisplay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                apos = float.Parse(XsetDisplay.Text);
+            }
+            catch (Exception ex) { }
+        }
+
+        private void GoToCoord_Click(object sender, RoutedEventArgs e)
+        {
+            command = "G1"; 
+            // if (XsetDisplay has text) 
+            // command = " X" + xpos; 
+            // if (YsetDisplay empty)
+            // command = " Y" + ypos; 
+            // if (ZsetDisplay empty)
+            // command = " Z" + zpos; 
+            // if (AsetDisplay empty)
+            // command = " A" + apos; 
+            command = " F" + feedrate[0]; 
+            Serial_Com(command);
+        }
     }
 }

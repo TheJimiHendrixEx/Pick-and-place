@@ -36,33 +36,60 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <!-- Define main rightside boxes by adding more RowDefinitions -->
+            <!-- RIGHT SIDE ROWS -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="90"/>
+                <!-- EXIT & STOP -->
+                <RowDefinition Height="90"/>
+                <!-- Connection Status | Go to Coords-->
                 <RowDefinition Height="200"/>
+                <!-- Current Coordinates | Set Your Coords -->
                 <RowDefinition Height="200"/>
+                <!-- Control Feedrates | Notes -->
+                <!-- Control Feedrates -->
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Button Content="Exit" x:Name="Exit_but" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF8C00" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7" Height="55" Width="154" Click="Exit_but_Click"/>
             <Button Content="STOP" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFB0707" FontWeight="Bold" TextElement.FontSize="40" Foreground="#FFFAF7F7" Height="55" Width="154" Grid.Column="1"/>
-            <!-- Current Coordinates Box -->
+            <!-- Connection Status Box -->
             <Grid Grid.Column="0" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Connection Status" />
+                <TextBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" Text="" Height="20" Width="120"/>
+            </Grid>
+            <!-- Go to Set Coordinates Button -->
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="button" Content="Go to Set Coordinates" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="130" Click="GoToCoord_Click"/>
+            </Grid>
+            <!-- Current Coordinates Box -->
+            <Grid Grid.Column="0" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <!-- Title Line -->
                     <RowDefinition/>
+                    <!-- Coordinates Box -->
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <!-- Defining 2 columns -->
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <!-- Splitting up the box for individual coordinates -->
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Xdisplay" Text="{Binding xpos, ElementName=CurrentWindow}" IsReadOnly="True" />
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Xdisplay" Text="{Binding xpos, ElementName=CurrentWindow}" IsReadOnly="True"/>
                     <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Ydisplay" Text="{Binding ypos, ElementName=CurrentWindow}" IsReadOnly="True"/>
                     <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="Zdisplay" Text="{Binding zpos, ElementName=CurrentWindow}" IsReadOnly="True"/>
                     <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="Adisplay" Text="" IsReadOnly="True"/>
@@ -73,18 +100,41 @@
                 </Grid>
                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Current Coordinates" VerticalAlignment="Center"/>
             </Grid>
-            <!-- Connection Status Box -->
-            <Grid Grid.Column="1" Grid.Row="1">
+            <!-- Set Your Coordinates -->
+            <Grid Grid.Column="1" Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="1*"/>
+                    <!-- Title Line -->
+                    <RowDefinition/>
+                    <!-- Coordinates Box -->
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Connection Status" />
-                <TextBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" Text="" Height="20" Width="120"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <!-- Defining 2 columns -->
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <!-- Splitting up the box for individual coordinates -->
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="XsetDisplay" TextChanged="XsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="YsetDisplay" TextChanged="YsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="ZsetDisplay" TextChanged="ZsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="AsetDisplay" TextChanged="AsetDisplay_TextChanged"/>
+                    <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="X Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Y Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Z Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" TextWrapping="Wrap" Text="A Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+                </Grid>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Set Your Coordinates" VerticalAlignment="Center"/>
             </Grid>
             <!-- FeedRate Box -->
-            <Grid Grid.Column="0" Grid.Row="2">
+            <Grid Grid.Column="0" Grid.Row="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition/>
@@ -104,14 +154,28 @@
                     <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Y Feedrate:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Z Feedrate:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" TextWrapping="Wrap" Text="A Feedrate:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="xFeedrate" TextChanged="XFeedrate_TextChanged" Text="4000"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="yFeedrate" TextChanged="YFeedrate_TextChanged" Text="4000"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="xFeedrate" TextChanged="XFeedrate_TextChanged" Text="10000"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="yFeedrate" TextChanged="YFeedrate_TextChanged" Text="10000"/>
                     <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="zFeedrate" TextChanged="ZFeedrate_TextChanged" Text="4000"/>
-                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="aFeedrate" TextChanged="AFeedrate_TextChanged" Text="4000"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="aFeedrate" TextChanged="AFeedrate_TextChanged" Text="2000"/>
                 </Grid>
                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Control Feedrates" VerticalAlignment="Center"/>
             </Grid>
             <Button Name="Import" Content="Import" HorizontalAlignment="Left" Margin="147,250,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="Import_Click"/>
+            <Grid Grid.Column="1" Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Feedrate References"/>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Feedrate References"/>
+                <TextBlock Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Feedrate References"/>
+                <TextBlock Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Feedrate References"/>
+                <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Feedrate References"/>
+            </Grid>
         </Grid>
         <!-- Bottom Grid START -->
         <Grid HorizontalAlignment="Center" Margin="26,458,26,10.2" Width="719" Grid.Column="0">
