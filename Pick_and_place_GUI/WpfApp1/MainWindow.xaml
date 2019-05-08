@@ -59,7 +59,7 @@
 
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Connection Status" />
-                <TextBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" Text="" Height="20" Width="120"/>
+                <TextBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" TextAlignment="Center" Text="" Height="20" Width="120"/>
             </Grid>
             <!-- Go to Set Coordinates Button -->
             <Grid Grid.Column="1" Grid.Row="1">
@@ -89,10 +89,10 @@
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Xdisplay" Text="{Binding xpos, ElementName=CurrentWindow}" IsReadOnly="True"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Ydisplay" Text="{Binding ypos, ElementName=CurrentWindow}" IsReadOnly="True"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="Zdisplay" Text="{Binding zpos, ElementName=CurrentWindow}" IsReadOnly="True"/>
-                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="Adisplay" Text="" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Xdisplay" Text="{Binding xpos, ElementName=CurrentWindow}" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="Ydisplay" Text="{Binding ypos, ElementName=CurrentWindow}" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="Zdisplay" Text="{Binding zpos, ElementName=CurrentWindow}" IsReadOnly="True"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="Adisplay" Text="" IsReadOnly="True"/>
                     <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="X Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Y Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Z Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -121,10 +121,10 @@
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="XsetDisplay" TextChanged="XsetDisplay_TextChanged"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="YsetDisplay" TextChanged="YsetDisplay_TextChanged"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="ZsetDisplay" TextChanged="ZsetDisplay_TextChanged"/>
-                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="AsetDisplay" TextChanged="AsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="XsetDisplay" TextChanged="XsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,10,0,10" Name="YsetDisplay" TextChanged="YsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="ZsetDisplay" TextChanged="ZsetDisplay_TextChanged"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Width="70" Margin="10,0,0,0" Name="AsetDisplay" TextChanged="AsetDisplay_TextChanged"/>
                     <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="X Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Y Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Z Position:" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -154,10 +154,10 @@
                     <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Y Feedrate:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="Z Feedrate:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" TextWrapping="Wrap" Text="A Feedrate:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="xFeedrate" TextChanged="XFeedrate_TextChanged" Text="10000"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="yFeedrate" TextChanged="YFeedrate_TextChanged" Text="10000"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="zFeedrate" TextChanged="ZFeedrate_TextChanged" Text="4000"/>
-                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="aFeedrate" TextChanged="AFeedrate_TextChanged" Text="2000"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"  TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="xFeedrate" TextChanged="XFeedrate_TextChanged" Text="10000"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="yFeedrate" TextChanged="YFeedrate_TextChanged" Text="10000"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="zFeedrate" TextChanged="ZFeedrate_TextChanged" Text="4000"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"  TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Height="20" Width="70" Margin="10,0,0,0" Name="aFeedrate" TextChanged="AFeedrate_TextChanged" Text="2000"/>
                 </Grid>
                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Control Feedrates" VerticalAlignment="Center"/>
             </Grid>
@@ -186,7 +186,7 @@
                         <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Z = 4000"/>
                         <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Text="A = ????"/>
                     </Grid>
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Max Feedrate           =                       20000"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Max Feedrate&#x0a;&#x0a;20000"/>
                 </Grid>
                 <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Recommended Feedrates"/>
             </Grid>
@@ -232,8 +232,8 @@
                 <ComboBox Grid.Row="0" x:Name="VidDevices" Width="158" Height="22" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding VideoDevices}" DisplayMemberPath="Name" SelectedIndex="0" />
                 <Button Grid.Row="1" Content="Start Capture" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StartCaptureButton_Click" />
                 <Button Grid.Row="2" Content="Stop Capture" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="StopCaptureButton_Click" />
-                <TextBox Grid.Row="3" Name="xOffset" Text="" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,0" TextChanged="XOffset_TextChanged"/>
-                <TextBox Grid.Row="4" Name="yOffset" Text="" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,0" TextChanged="YOffset_TextChanged"/>
+                <TextBox Grid.Row="3" Name="xOffset" Text="" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,0" TextChanged="XOffset_TextChanged"/>
+                <TextBox Grid.Row="4" Name="yOffset" Text="" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,0" TextChanged="YOffset_TextChanged"/>
                 <Button Grid.Row="5" Content="Go to Offset" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="GoToOffset_Click" Margin="0,0,0,0"/>
                 <Button Grid.Row="6" Content="Return" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ReturnOffset_Click" Margin="0,0,0,0"/>
                 <Button Grid.Row="7" Content="Solenoid Toggle" Width="90" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Succ_Click" x:Name="Succ" Margin="0,0,0,0"   />
