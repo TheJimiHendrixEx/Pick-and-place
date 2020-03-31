@@ -217,7 +217,7 @@ namespace WpfApp1
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Connection failed:: " + ex.Message, "Error bitch!!!!");
+                MessageBox.Show("Connection failed:: " + ex.Message, "Error");
             }
         }
 
@@ -524,7 +524,7 @@ namespace WpfApp1
 
         private void GoToCoord_Click(object sender, RoutedEventArgs e)
         {
-            command = "G1"; 
+            command = "G1 "; 
             // if (XsetDisplay has text) 
             // command = " X" + xpos; 
             // if (YsetDisplay empty)
